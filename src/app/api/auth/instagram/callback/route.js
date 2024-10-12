@@ -29,7 +29,7 @@ export async function GET(request) {
 
     // Fetch user info
     const userInfoResponse = await axios.get(
-      `https://graph.instagram.com/me?fields=id,username,account_type,media_count,name,profile_picture_url,biography,website,email&access_token=${accessToken}`
+      `https://graph.instagram.com/me?fields=id,username&access_token=${accessToken}`
     );
     return NextResponse.json(userInfoResponse.data);
   } catch (error) {
