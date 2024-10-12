@@ -43,7 +43,7 @@ export async function GET(request) {
           .get(
             `https://graph.instagram.com/${mediaItem.id}/insights?metric=impressions,shares,comments,plays,likes,saved,replies,video_views,total_interactions,navigation,follows,profile_visits,profile_activity,reach,ig_reels_video_view_total_time,ig_reels_avg_watch_time,clips_replays_count,ig_reels_aggregated_all_plays_count,views,thread_replies,reposts,quotes,peak_concurrent_viewers,thread_shares&access_token=${accessToken}`
           )
-          .catch((error) => {
+          .catch(() => {
             console.error(
               `Error fetching insights for media item ${mediaItem.id}`
             );
