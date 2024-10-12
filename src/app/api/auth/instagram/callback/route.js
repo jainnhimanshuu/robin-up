@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NextResponse } from "next/server";
 
 const CLIENT_ID = process.env.INSTAGRAM_CLIENT_ID;
 const CLIENT_SECRET = process.env.INSTAGRAM_CLIENT_SECRET;
@@ -9,6 +10,8 @@ export async function GET(request) {
   const code = searchParams.get("code");
 
   try {
+    debugger;
+
     const tokenResponse = await axios.post(
       "https://api.instagram.com/oauth/access_token",
       {
