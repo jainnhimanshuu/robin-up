@@ -20,7 +20,11 @@
     "paths": {
       "@rbu/*": ["./src/*"],
       "@rbu/components": ["./src/components"],
-      "@rbu/components/*": ["./src/components/*"]
+      "@rbu/components/*": ["./src/components/*"],
+      "@rbu/types": ["./src/types"],
+      "@rbu/types/*": ["./src/types/*"],
+      "@rbu/helpers": ["./src/helpers"],
+      "@rbu/helpers/*": ["./src/helpers/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
