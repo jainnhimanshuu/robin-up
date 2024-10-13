@@ -5,5 +5,9 @@ type Props = {
   htmlFor: string;
 };
 export default function Label({ children, htmlFor }: Props) {
-  return <label htmlFor={htmlFor}>{children}</label>;
+  return (
+    <label className="text-xs text-slate-500" htmlFor={htmlFor}>
+      {children}
+    </label>
+  );
 }
