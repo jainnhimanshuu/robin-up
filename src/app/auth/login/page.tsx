@@ -1,15 +1,35 @@
 "use client";
 import React, { FC } from "react";
 import { Input } from "@rbu/components";
-import { cn } from "@rbu/helpers";
+import { cn, DATA_STORE_KEYS, DataStore } from "@rbu/helpers";
 import Label from "@rbu/components/form/Label";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    const formData = new FormData(e.currentTarget);
+
+    const email = formData?.get("email") ?? "";
+    const password = formData?.get("password") ?? "";
+
+    const validEmail = ["demo.login@robinup.com"];
+    const validPwd = ["Bappa@123@!"];
+
+    if (
+      validEmail.includes(email as string) &&
+      validPwd.includes(password as string)
+    ) {
+      DataStore.setItem(DATA_STORE_KEYS.AUTH_TOKEN, "true");
+
+      router.push("/dashboard");
+    } else {
+      alert("Please check your credentials");
+    }
   };
   return (
     <>
@@ -23,11 +43,21 @@ export default function Login() {
       <form className="mt-6" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="hi@robinup.com" type="email" />
+          <Input
+            id="email"
+            name="email"
+            placeholder="hi@robinup.com"
+            type="email"
+          />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" />
+          <Input
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            type="password"
+          />
         </LabelInputContainer>
 
         <div className="flex items-center justify-between mt-6 mb-8">
@@ -52,6 +82,7 @@ export default function Login() {
           radius="sm"
           fullWidth
           className="bg-blue-500 text-slate-50 h-12"
+          type="submit"
         >
           Login
         </Button>
