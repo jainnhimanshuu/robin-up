@@ -1,21 +1,21 @@
 "use client";
-import React, { FC } from "react";
+import React from "react";
 import { Input } from "@rbu/components";
-import { cn, DATA_STORE_KEYS, DataStore } from "@rbu/helpers";
+import { DATA_STORE_KEYS, DataStore } from "@rbu/helpers";
 import Label from "@rbu/components/form/Label";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import LabelInputContainer from "@rbu/components/form/LabelInputContainer";
+import { useForm } from "@rbu/hooks";
 
 export default function Login() {
   const router = useRouter();
+  const { values, handleChange } = useForm({ email: "", password: "" });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-
-    const email = formData?.get("email") ?? "";
-    const password = formData?.get("password") ?? "";
+    const { email, password } = values;
 
     const validEmail = ["demo.login@robinup.com"];
     const validPwd = ["Bappa@123@!"];
@@ -48,6 +48,8 @@ export default function Login() {
             name="email"
             placeholder="hi@robinup.com"
             type="email"
+            value={values.email as string}
+            onChange={handleChange}
           />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
@@ -57,6 +59,8 @@ export default function Login() {
             name="password"
             placeholder="••••••••"
             type="password"
+            value={values.password as string}
+            onChange={handleChange}
           />
         </LabelInputContainer>
 
@@ -99,14 +103,3 @@ export default function Login() {
     </>
   );
 }
-
-const LabelInputContainer: FC<{
-  children: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
-  );
-};

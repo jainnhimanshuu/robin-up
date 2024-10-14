@@ -1,15 +1,18 @@
 "use client";
-import React, { FC } from "react";
+import React from "react";
 import { Input } from "@rbu/components";
-import { cn } from "@rbu/helpers";
 import Label from "@rbu/components/form/Label";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import LabelInputContainer from "@rbu/components/form/LabelInputContainer";
+import { useForm } from "@rbu/hooks";
 
 export default function SignUp() {
+  const { values, handleChange } = useForm({ email: "", password: "" });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    console.log("Form submitted", values);
   };
   return (
     <>
@@ -23,11 +26,25 @@ export default function SignUp() {
       <form className="mt-6" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="hi@robinup.com" type="email" />
+          <Input
+            id="email"
+            name="email"
+            placeholder="hi@robinup.com"
+            type="email"
+            value={values.email as string}
+            onChange={handleChange}
+          />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" />
+          <Input
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            type="password"
+            value={values.password as string}
+            onChange={handleChange}
+          />
         </LabelInputContainer>
 
         <div className="flex justify-center flex-col mt-6 mb-8">
@@ -76,14 +93,3 @@ export default function SignUp() {
     </>
   );
 }
-
-const LabelInputContainer: FC<{
-  children: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 w-full", className)}>
-      {children}
-    </div>
-  );
-};
