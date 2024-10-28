@@ -1,6 +1,6 @@
 export class URLProvider {
   static getBasePath(): string {
-    return "api";
+    return "/api";
   }
 
   static getLoginUrl(): string {

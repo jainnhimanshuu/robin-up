@@ -8,8 +8,11 @@ import { Link } from "lucide-react";
 import { Input } from "@rbu/components";
 import React from "react";
 import { URLProvider } from "@rbu/providers";
+import { useRouter } from "next/navigation";
+import { URLMap } from "@rbu/constants/urlMap";
 
 const LoginForm = () => {
+  const router = useRouter();
   const { values, handleChange } = useForm({ email: "", password: "" });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,6 +38,7 @@ const LoginForm = () => {
         }
         const data = await response.json();
         console.log("Login successful:", data);
+        router.push(URLMap.PROFILE_PAGE + "/test");
       } catch (err) {
         Logger.logError("[Err][Login]: ", err);
       }
