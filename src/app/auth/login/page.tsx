@@ -1,0 +1,105 @@
+"use client";
+import React from "react";
+import { Input } from "@rbu/components";
+import { DATA_STORE_KEYS, DataStore } from "@rbu/helpers";
+import Label from "@rbu/components/form/Label";
+import { Button } from "@nextui-org/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import LabelInputContainer from "@rbu/components/form/LabelInputContainer";
+import { useForm } from "@rbu/hooks";
+
+export default function Login() {
+  const router = useRouter();
+  const { values, handleChange } = useForm({ email: "", password: "" });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { email, password } = values;
+
+    const validEmail = ["demo.login@robinup.com"];
+    const validPwd = ["Bappa@123@!"];
+
+    if (
+      validEmail.includes(email as string) &&
+      validPwd.includes(password as string)
+    ) {
+      DataStore.setItem(DATA_STORE_KEYS.AUTH_TOKEN, "true");
+
+      router.push("/dashboard");
+    } else {
+      alert("Please check your credentials");
+    }
+  };
+  return (
+    <>
+      <h2 className="font-bold text-3xl text-neutral-800 dark:text-neutral-200">
+        Login in to your account{" "}
+      </h2>
+      <p className="text-neutral-400 text-sm max-w-sm mt-4 dark:text-neutral-300">
+        Unlock the power of influencer marketing. Connect with top creators,
+        build partnerships.
+      </p>
+      <form className="mt-6" onSubmit={handleSubmit}>
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="email">Email Address</Label>
+          <Input
+            id="email"
+            name="email"
+            placeholder="hi@robinup.com"
+            type="email"
+            value={values.email as string}
+            onChange={handleChange}
+          />
+        </LabelInputContainer>
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            type="password"
+            value={values.password as string}
+            onChange={handleChange}
+          />
+        </LabelInputContainer>
+
+        <div className="flex items-center justify-between mt-6 mb-8">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              name="remember"
+              id="remember"
+              className="mr-2"
+            />
+            <Label htmlFor="remember">Keep me signed in</Label>
+          </div>
+          <Link
+            href="/auth/forgot-password"
+            className="text-blue-600 font-bold text-xs cursor-pointer"
+          >
+            Forgot Password
+          </Link>
+        </div>
+
+        <Button
+          radius="sm"
+          fullWidth
+          className="bg-blue-500 text-slate-50 h-12"
+          type="submit"
+        >
+          Login
+        </Button>
+      </form>
+      <div className="flex items-center justify-center mt-4">
+        <p className="text-slate-400 text-xs mr-1">Not registered yet?</p>
+        <Link
+          href="/auth/signup"
+          className="text-blue-600 underline text-xs font-bold cursor-pointer"
+        >
+          Create a new account
+        </Link>
+      </div>
+    </>
+  );
+}
