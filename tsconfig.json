@@ -24,7 +24,9 @@
       "@rbu/types": ["./src/types"],
       "@rbu/types/*": ["./src/types/*"],
       "@rbu/helpers": ["./src/helpers"],
-      "@rbu/helpers/*": ["./src/helpers/*"]
+      "@rbu/helpers/*": ["./src/helpers/*"],
+      "@rbu/public": ["./public"],
+      "@rbu/public/*": ["./public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
