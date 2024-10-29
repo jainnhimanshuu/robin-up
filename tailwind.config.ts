@@ -2,39 +2,56 @@ import type { Config } from "tailwindcss";
 import { nextui } from "@nextui-org/react";
 
 import svgToDataUri from "mini-svg-data-uri";
-import { default as flattenColorPalette } from 'tailwindcss/lib/util/flattenColorPalette';
+import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
 
 const config: Config = {
-    darkMode: ["class"],
-    content: [
+  darkMode: ["class"],
+  content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-	"./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./src/**/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-  	extend: {
+    extend: {
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
       },
       animation: {
         spotlight: "spotlight 2s ease .75s 1 forwards",
+        aurora: "aurora 60s linear infinite",
+        gradient: "gradient 8s linear infinite",
       },
       keyframes: {
+        gradient: {
+          to: {
+            backgroundPosition: "var(--bg-size) 0",
+          },
+        },
         spotlight: {
           "0%": {
-            opacity: '0',
+            opacity: "0",
             transform: "translate(-72%, -62%) scale(0.5)",
           },
           "100%": {
-            opacity: '1',
+            opacity: "1",
             transform: "translate(-50%,-40%) scale(1)",
+          },
+        },
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
           },
         },
       },
     },
   },
-  plugins: [nextui(),
+  plugins: [
+    nextui(),
     addVariablesForColors,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function ({ matchUtilities, theme }: any) {
@@ -68,7 +85,7 @@ function addVariablesForColors({ addBase, theme }: any) {
   const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });
