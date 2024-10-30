@@ -1,5 +1,3 @@
-"use client";
-
 import { AnimatedTooltip, AuroraBackground } from "@rbu/components";
 import { AnimatedGradientText } from "@rbu/components/textAnimations";
 import { tooltipData } from "@rbu/constants/instausers";
