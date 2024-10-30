@@ -23,7 +23,6 @@ const LoginForm = () => {
     const isValidPwd = password.length > 0;
 
     if (isValidEmail && isValidPwd) {
-      console.log(URLProvider.getLoginUrl());
       try {
         const response = await fetch(URLProvider.getLoginUrl(), {
           method: "POST",

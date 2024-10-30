@@ -10,4 +10,8 @@ export class URLProvider {
   static getSignupUrl(): string {
     return `${this.getBasePath()}/auth/signup`;
   }
+
+  static getCheckUsernameUrl(): string {
+    return `${this.getBasePath()}/auth/check-username`;
+  }
 }
