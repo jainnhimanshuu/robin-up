@@ -1,3 +1,4 @@
 import useForm from "./useForm";
+import useDebounce from "./useDebounce";
 
-export {useForm}
+export { useForm, useDebounce };
