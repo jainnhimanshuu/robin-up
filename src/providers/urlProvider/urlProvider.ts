@@ -14,4 +14,8 @@ export class URLProvider {
   static getCheckUsernameUrl(): string {
     return `${this.getBasePath()}/auth/check-username`;
   }
+
+  static getProfilePathUrl(username: string): string {
+    return `${this.getBasePath()}/profile/${username}`;
+  }
 }

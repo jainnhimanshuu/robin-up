@@ -3,7 +3,6 @@ import * as React from "react";
 import { cn } from "@rbu/helpers";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { FieldError, UseFormRegister } from "react-hook-form";
-import { error } from "console";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

@@ -31,15 +31,9 @@ export default function SignUp() {
   } = useForm<SignUpFormData>();
   const router = useRouter();
 
-  const watchFields = watch<SignUpFormData>([
-    "username",
-    "email",
-    "password",
-    "emailSub",
-    "termsAndCondition",
-  ]);
+  const [username, email] = watch(["username", "email"]);
 
-  const debouncedUsername = useDebounce(watchFields?.username, 500);
+  const debouncedUsername = useDebounce(username, 500);
 
   const checkUsernameAvailability = async (username: string) => {
     const url = URLProvider.getCheckUsernameUrl();
@@ -124,9 +118,7 @@ export default function SignUp() {
             {...register("email", {
               required: "Email is required",
               validate: () =>
-                CommonUtils.validEmail(watchFields?.email)
-                  ? "Email is Invalid"
-                  : true,
+                CommonUtils.validEmail(email) ? "Email is Invalid" : true,
             })}
           />
         </LabelInputContainer>
