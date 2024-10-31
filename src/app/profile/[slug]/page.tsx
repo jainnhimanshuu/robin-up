@@ -1,21 +1,30 @@
 import { Logger } from "@rbu/helpers";
-import { URLProvider } from "@rbu/providers";
+import { getInfluencerProfile } from "@rbu/ssr-services/profile";
 
 const ProfilePage = async ({ params }: { params: { slug: string } }) => {
   const username = params.slug;
 
-  const url = URLProvider.getProfilePathUrl(username);
+  let data;
 
-  // Logger.logMessage(`Fetching profile for ${username} ${url}`);
-  const response = await fetch(`/api/profile/${username}`, { method: "GET" });
-  const data = await response.json();
+  try {
+    const response = await getInfluencerProfile(username);
 
-  return (
-    <div>
-      <h1>{data.influencer.name}</h1>
-      <p>{data.influencer.username}</p>
-    </div>
-  );
+    Logger.logMessage("[Profile]: ", response);
+    data = response;
+  } catch (err) {
+    console.log(err);
+  }
+
+  if (!data) {
+    return <p>Influencer Not Found</p>;
+  } else {
+    return (
+      <div>
+        <h1>{data.influencer.name}</h1>
+        <p>{data.influencer.username}</p>
+      </div>
+    );
+  }
 };
 
 export default ProfilePage;

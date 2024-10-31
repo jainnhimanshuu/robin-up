@@ -75,7 +75,9 @@ export default function SignUp() {
         }),
       });
       if (resp.ok) {
-        router.push(URLMap.PROFILE_PAGE);
+        const data = await resp.json();
+        const username = data.influencer.username;
+        router.push(URLMap.PROFILE_PAGE + "/" + username);
       }
     } catch (err) {
       Logger.logError("[Err][SignUp]: ", err);
@@ -118,7 +120,7 @@ export default function SignUp() {
             {...register("email", {
               required: "Email is required",
               validate: () =>
-                CommonUtils.validEmail(email) ? "Email is Invalid" : true,
+                !CommonUtils.validEmail(email) ? "Email is Invalid" : true,
             })}
           />
         </LabelInputContainer>

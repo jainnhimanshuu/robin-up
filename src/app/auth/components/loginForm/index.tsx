@@ -35,9 +35,10 @@ const LoginForm = () => {
         if (!response.ok) {
           throw new Error("Failed to login");
         }
+
         const data = await response.json();
-        console.log("Login successful:", data);
-        router.push(URLMap.PROFILE_PAGE + "/test");
+
+        router.push(URLMap.PROFILE_PAGE + "/" + data?.influencerUsername);
       } catch (err) {
         Logger.logError("[Err][Login]: ", err);
       }

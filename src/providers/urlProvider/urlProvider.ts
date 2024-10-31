@@ -1,5 +1,9 @@
 export class URLProvider {
   static getBasePath(): string {
+    // ISSUE: https://github.com/vercel/next.js/issues/42297
+    // if (typeof window !== "undefined") return "";
+    // const vc = process.env.VERCEL_URL;
+    // if (vc) return `https://${vc}/api`;
     return "/api";
   }
 
