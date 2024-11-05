@@ -1,5 +1,6 @@
 import { Logger } from "@rbu/helpers";
 import { getInfluencerProfile } from "@rbu/ssr-services/profile";
+import Portfolio from "./Portfolio/portfolio";
 
 const ProfilePage = async ({ params }: { params: { slug: string } }) => {
   const username = params.slug;
@@ -19,10 +20,10 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
     return <p>Influencer Not Found</p>;
   } else {
     return (
-      <div>
-        <h1>{data.influencer.name}</h1>
-        <p>{data.influencer.username}</p>
-      </div>
+      <Portfolio
+        influencerData={data}
+        influencerUsername={data.influencer.username}
+      />
     );
   }
 };

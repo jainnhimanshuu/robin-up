@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { authMiddleware } from './middlewares/authMiddleware';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { authMiddleware } from "./middlewares/authMiddleware";
 
 export function middleware(request: NextRequest) {
   const authResponse = authMiddleware(request);
@@ -12,5 +12,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*',], 
+  matcher: ["/dashboard/:path*"],
 };
