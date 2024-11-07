@@ -1,17 +1,24 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
-import PortfolioBanner from "@rbu/components/portfolioBanner/portfolioBanner";
-import { DATA_STORE_KEYS, DataStore } from "@rbu/helpers";
+import { Avatar, Button } from "@nextui-org/react";
+import PortfolioHeader from "@rbu/components/portfolioHeader/portfolioHeader";
+import { DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
 import { Influencer } from "@rbu/types";
+import Tile from "@rbu/components/title/title";
 
 interface IPortfolioProps {
   influencerData: Influencer;
-  influencerUsername: string;
+  instagramConnected: boolean;
 }
 
 const Portfolio = (props: IPortfolioProps) => {
-  const { influencerUsername } = props;
+  const { influencerData, instagramConnected } = props;
+
+  const influencerUsername = influencerData.username;
+
+  const instagramData = influencerData.instagramData;
+
+  Logger.logMessage("[Portfolio]: ", instagramData);
 
   const handleConnectInstagram = () => {
     DataStore.setItem(DATA_STORE_KEYS.USERNAME, influencerUsername);
@@ -25,16 +32,48 @@ const Portfolio = (props: IPortfolioProps) => {
 
   return (
     <div>
-      <PortfolioBanner />
-      <div className="flex flex-col items-start justify-center p-10">
-        <h1 className=" text-6xl font-semibold">{influencerUsername}</h1>
-        <Button
-          radius="sm"
-          className="bg-[#E1306C] text-slate-50 h-10 mt-2"
-          onClick={handleConnectInstagram}
-        >
-          Connect Instagram
-        </Button>
+      <div className="flex flex-col items-start justify-center">
+        <div className="flex gap-2 bg-[#f2f2f2] rounded-md w-full p-10">
+          <PortfolioHeader profilePicture={influencerData?.profilePicture} />
+          <div className="flex flex-col gap-2">
+            <h1 className=" text-6xl font-semibold">{influencerUsername}</h1>
+            <h2 className=" text-xl ">{influencerData?.bio}</h2>
+          </div>
+          {!instagramConnected && (
+            <Button
+              radius="sm"
+              className="bg-[#E1306C] text-slate-50 h-10 mt-2"
+              onClick={handleConnectInstagram}
+            >
+              Connect Instagram
+            </Button>
+          )}
+        </div>
+        <div className="p-10">
+          <Tile>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <Avatar
+                  src={instagramData?.instagramProfilePicture}
+                  size="lg"
+                />
+                <div className="flex flex-col">
+                  <h2 className="text-lg text- font-semibold">
+                    {instagramData?.igUsername}
+                  </h2>
+                  <p className="text-slate-400  text-sm">Instagram</p>
+                </div>
+              </div>
+              <div className="border-b border-slate-300"></div>
+              <div className="flex  mt-4 items-end gap-2">
+                <h1 className="text-3xl font-bold">
+                  {instagramData?.followersCount}
+                </h1>
+                <p className="text-slate-400 text-sm">Followers</p>
+              </div>
+            </div>
+          </Tile>
+        </div>
       </div>
     </div>
   );
