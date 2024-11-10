@@ -5,6 +5,8 @@ import PortfolioHeader from "@rbu/components/portfolioHeader/portfolioHeader";
 import { DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
 import { Influencer } from "@rbu/types";
 import Tile from "@rbu/components/title/title";
+import { URLProvider } from "@rbu/providers";
+import { INSTAGRAM_SCOPE } from "@rbu/constants/instagramContants";
 
 interface IPortfolioProps {
   influencerData: Influencer;
@@ -14,9 +16,9 @@ interface IPortfolioProps {
 const Portfolio = (props: IPortfolioProps) => {
   const { influencerData, instagramConnected } = props;
 
-  const influencerUsername = influencerData.username;
+  const influencerUsername = influencerData?.username;
 
-  const instagramData = influencerData.instagramData;
+  const instagramData = influencerData?.instagramData;
 
   Logger.logMessage("[Portfolio]: ", instagramData);
 
@@ -25,7 +27,11 @@ const Portfolio = (props: IPortfolioProps) => {
     const clientId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
     const redirectUri = process.env.NEXT_PUBLIC_INSTAGRAM_REDIRECT_URI;
 
-    const authUrl = `https://www.facebook.com/v20.0/dialog/oauth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=instagram_basic,instagram_manage_insights,pages_show_list&response_type=code`;
+    const authUrl = `${URLProvider.getFBBaseUrl()}/dialog/oauth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${
+      INSTAGRAM_SCOPE.INSTAGRAM_BASIC
+    },${INSTAGRAM_SCOPE.INSTAGRAM_MANAGE_INSIGHTS},${
+      INSTAGRAM_SCOPE.PAGES_READ_ENGAGEMENT
+    },${INSTAGRAM_SCOPE.PAGES_SHOW_LIST}&response_type=token&display=page&extras={"setup":{"channel":"IG_API_ONBOARDING"}}`;
 
     if (typeof window !== "undefined") window.location.href = authUrl;
   };

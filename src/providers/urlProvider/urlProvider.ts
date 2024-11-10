@@ -1,10 +1,14 @@
 export class URLProvider {
   static getBasePath(): string {
-    // ISSUE: https://github.com/vercel/next.js/issues/42297
-    // if (typeof window !== "undefined") return "";
-    // const vc = process.env.VERCEL_URL;
-    // if (vc) return `https://${vc}/api`;
     return "/api";
+  }
+
+  static getFBBaseUrl(): string {
+    return "https://www.facebook.com/v21.0";
+  }
+
+  static getFBGraphUrl(): string {
+    return "https://graph.facebook.com/v21.0";
   }
 
   static getLoginUrl(): string {
