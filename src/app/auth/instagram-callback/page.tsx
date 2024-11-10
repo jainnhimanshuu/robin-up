@@ -1,20 +1,25 @@
 "use client";
 
 import { INSTAGRAM_FIELDS } from "@rbu/constants/instagramContants";
-import { DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
+import { CommonUtils, DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
 import { URLProvider } from "@rbu/providers";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const InstagramCallbackPage = () => {
   const [response, setResponse] = useState<string>("");
+  const [accessToken, setAccessToken] = useState<string | null>("");
   const router = useRouter();
 
-  const hash = window.location.hash.substring(1); // Get the hash part after `#`
-  const params = new URLSearchParams(hash);
-  const accessToken = params.get("access_token");
+  if (CommonUtils.isBrowser()) {
+    const hash = window.location.hash.substring(1); // Get the hash part after `#`
+    const params = new URLSearchParams(hash);
+    const access_token = params.get("access_token");
 
-  Logger.logMessage("InstagramCallbackPage", "accessToken", accessToken);
+    setAccessToken(access_token);
+    
+    Logger.logMessage("InstagramCallbackPage", "accessToken", accessToken);
+  }
 
   useEffect(() => {
     if (accessToken) {
