@@ -3,26 +3,18 @@
 import { INSTAGRAM_FIELDS } from "@rbu/constants/instagramContants";
 import { DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
 import { URLProvider } from "@rbu/providers";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const InstagramCallbackPage = () => {
   const [response, setResponse] = useState<string>("");
-  const searchParams = useSearchParams();
   const router = useRouter();
 
-  const longLivedToken = searchParams.get("long_lived_token");
   const hash = window.location.hash.substring(1); // Get the hash part after `#`
   const params = new URLSearchParams(hash);
   const accessToken = params.get("access_token");
 
-  Logger.logMessage(
-    "InstagramCallbackPage",
-    "accessToken",
-    accessToken,
-    "longeLivedToken",
-    longLivedToken
-  );
+  Logger.logMessage("InstagramCallbackPage", "accessToken", accessToken);
 
   useEffect(() => {
     if (accessToken) {
