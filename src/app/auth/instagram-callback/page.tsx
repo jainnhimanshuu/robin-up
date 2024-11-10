@@ -8,18 +8,21 @@ import { useEffect, useState } from "react";
 
 const InstagramCallbackPage = () => {
   const [response, setResponse] = useState<string>("");
-  const [accessToken, setAccessToken] = useState<string | null>("");
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const router = useRouter();
 
-  if (CommonUtils.isBrowser()) {
-    const hash = window.location.hash.substring(1); // Get the hash part after `#`
-    const params = new URLSearchParams(hash);
-    const access_token = params.get("access_token");
+  useEffect(() => {
+    if (CommonUtils.isBrowser()) {
+      const hash = window.location.hash.substring(1); // Get the hash part after `#`
+      const params = new URLSearchParams(hash);
+      const token = params.get("access_token");
 
-    setAccessToken(access_token);
-    
-    Logger.logMessage("InstagramCallbackPage", "accessToken", accessToken);
-  }
+      if (token) {
+        setAccessToken(token);
+        Logger.logMessage("InstagramCallbackPage", "accessToken", token);
+      }
+    }
+  }, []); // Empty dependency array to run this effect only once
 
   useEffect(() => {
     if (accessToken) {
@@ -62,7 +65,7 @@ const InstagramCallbackPage = () => {
 
       exchangeAccountData();
     }
-  }, [accessToken]);
+  }, [accessToken, router]); // Add `router` dependency to avoid any stale reference
 
   return (
     <>
