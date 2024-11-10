@@ -3,6 +3,14 @@ export class URLProvider {
     return "/api";
   }
 
+  static getFBBaseUrl(): string {
+    return "https://www.facebook.com/v21.0";
+  }
+
+  static getFBGraphUrl(): string {
+    return "https://graph.facebook.com/v21.0";
+  }
+
   static getLoginUrl(): string {
     return `${this.getBasePath()}/auth/login`;
   }
@@ -13,5 +21,9 @@ export class URLProvider {
 
   static getCheckUsernameUrl(): string {
     return `${this.getBasePath()}/auth/check-username`;
+  }
+
+  static getProfilePathUrl(username: string): string {
+    return `${this.getBasePath()}/profile/${username}`;
   }
 }

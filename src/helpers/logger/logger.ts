@@ -2,7 +2,7 @@ import { CommonUtils } from '../commonUtils/commonUtils';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export class Logger {
-    public static logMessage = (message: string, ...params: any[]): void => {
+    public static logMessage = (message: string | boolean, ...params: any[]): void => {
         if (CommonUtils.isBrowser()) {
             console.log('[CLIENT LOG]', message, ...params);
         } else {
