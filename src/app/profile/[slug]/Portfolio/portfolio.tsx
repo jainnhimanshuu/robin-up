@@ -31,7 +31,9 @@ const Portfolio = (props: IPortfolioProps) => {
       INSTAGRAM_SCOPE.INSTAGRAM_BASIC
     },${INSTAGRAM_SCOPE.INSTAGRAM_MANAGE_INSIGHTS},${
       INSTAGRAM_SCOPE.PAGES_READ_ENGAGEMENT
-    },${INSTAGRAM_SCOPE.PAGES_SHOW_LIST}&response_type=token&display=page&extras={"setup":{"channel":"IG_API_ONBOARDING"}}`;
+    },${
+      INSTAGRAM_SCOPE.PAGES_SHOW_LIST
+    },email,read_insights,pages_read_user_content,public_profile,pages_manage_engagement&response_type=code&display=page`;
 
     if (typeof window !== "undefined") window.location.href = authUrl;
   };

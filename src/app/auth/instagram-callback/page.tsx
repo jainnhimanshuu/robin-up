@@ -1,71 +1,95 @@
 "use client";
 
-import { INSTAGRAM_FIELDS } from "@rbu/constants/instagramContants";
-import { CommonUtils, DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
+// import { INSTAGRAM_FIELDS } from "@rbu/constants/instagramContants";
+import { Logger } from "@rbu/helpers";
 import { URLProvider } from "@rbu/providers";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const InstagramCallbackPage = () => {
-  const [response, setResponse] = useState<string>("");
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const router = useRouter();
+  const [response, setResponse] = useState<string>("");
+  const searchParams = useSearchParams();
+
+  const code = searchParams.get("code");
+
+  // useEffect(() => {
+  //   if (CommonUtils.isBrowser()) {
+  //     const hash = window.location.hash.substring(1); // Get the hash part after `#`
+  //     const params = new URLSearchParams(hash);
+  //     const token = params.get("access_token");
+
+  //     if (token) {
+  //       setAccessToken(token);
+  //       Logger.logMessage("InstagramCallbackPage", "accessToken", token);
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (CommonUtils.isBrowser()) {
-      const hash = window.location.hash.substring(1); // Get the hash part after `#`
-      const params = new URLSearchParams(hash);
-      const token = params.get("access_token");
+    if (code) {
+      const exchangeToken = async () => {
+        const clientId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
+        const clientSecret = process.env.NEXT_PUBLIC_FACEBOOK_APP_SECRET;
+        const redirectUri = process.env.NEXT_PUBLIC_INSTAGRAM_REDIRECT_URI;
 
-      if (token) {
-        setAccessToken(token);
-        Logger.logMessage("InstagramCallbackPage", "accessToken", token);
-      }
-    }
-  }, []); // Empty dependency array to run this effect only once
-
-  useEffect(() => {
-    if (accessToken) {
-      const exchangeAccountData = async () => {
-        const accountURL = `${URLProvider.getFBGraphUrl()}/me/accounts?fields=${
-          INSTAGRAM_FIELDS.ID
-        },${INSTAGRAM_FIELDS.INSTAGRAM_BUSINESS_ACCOUNT},${
-          INSTAGRAM_FIELDS.NAME
-        },${INSTAGRAM_FIELDS.ACCESS_TOKEN}&access_token=${accessToken}`;
+        // Exchange the authorization code for an access token
+        const tokenUrl = `${URLProvider.getFBGraphUrl()}/oauth/access_token?client_id=${clientId}&redirect_uri=${redirectUri}&client_secret=${clientSecret}&code=${code}`;
 
         try {
-          const response = await fetch(accountURL, {
+          const response = await fetch(tokenUrl, {
             method: "GET",
           });
-          const resp = await response.json();
+          const data = await response.json();
+          Logger.logMessage("InstagramCallbackPage", "data", data);
 
-          Logger.logMessage("ACCOUNT DATA", resp);
-          const data = resp.data;
+          if (data.access_token) {
+            // Fetch Instagram Insights with the access token
+            const instagramAppToken = data.access_token;
 
-          if (data.length > 0) {
-            const igAccountData = data[0];
+            // Step 1: Get Facebook Page ID
+            const pageResponse = await fetch(
+              `${URLProvider.getFBGraphUrl()}/me/accounts?access_token=${
+                data.access_token
+              }`
+            );
+            const pageData = await pageResponse.json();
+            const pageId = pageData.data[0].id;
+
+            // Step 2: Get Instagram Business Account ID
+            const igAccountResponse = await fetch(
+              `${URLProvider.getFBGraphUrl()}/${pageId}?fields=instagram_business_account&access_token=${
+                data.access_token
+              }`,
+              {
+                method: "GET",
+              }
+            );
+            const igAccountData = await igAccountResponse.json();
             const igBusinessAccountId =
               igAccountData.instagram_business_account.id;
+            console.log("appIdData", igBusinessAccountId);
 
             const instagramAppId = igBusinessAccountId;
-
-            Logger.logMessage("InstagramAppId", instagramAppId);
-
-            const username = DataStore.getItem(DATA_STORE_KEYS.USERNAME);
-
-            router.push(`/profile/${username}`);
-          } else {
-            Logger.logMessage("No Instagram Account Connected", data);
-            setResponse("No Instagram Account Connected");
+            Logger.logMessage(
+              "InstagramCallbackPage",
+              "instagramAppId",
+              instagramAppId,
+              "instagramAppToken",
+              instagramAppToken
+            );
+            setAccessToken(instagramAppToken);
+            // await postData(instagramAppId, instagramAppToken);
           }
         } catch (error) {
           console.error("Error fetching access token or insights:", error);
+          setResponse("Error fetching access token or insights");
         }
       };
 
-      exchangeAccountData();
+      exchangeToken();
     }
-  }, [accessToken, router]); // Add `router` dependency to avoid any stale reference
+  }, [code]);
 
   return (
     <>
