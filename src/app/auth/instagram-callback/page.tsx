@@ -99,7 +99,7 @@ const InstagramCallbackPage = () => {
       ) : (
         <div>Invalid Link, {response}</div>
       )}
-      {}
+      {response && <div>{response}</div>}
     </>
   );
 };
