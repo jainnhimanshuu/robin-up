@@ -79,6 +79,7 @@ const InstagramCallbackPage = () => {
               instagramAppToken
             );
             setAccessToken(instagramAppToken);
+            setResponse(`Success  ${JSON.stringify(igAccountData)}`);
             // await postData(instagramAppId, instagramAppToken);
           }
         } catch (error) {
@@ -98,6 +99,7 @@ const InstagramCallbackPage = () => {
       ) : (
         <div>Invalid Link, {response}</div>
       )}
+      {}
     </>
   );
 };
