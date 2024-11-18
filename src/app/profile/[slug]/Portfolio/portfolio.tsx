@@ -33,7 +33,7 @@ const Portfolio = (props: IPortfolioProps) => {
       INSTAGRAM_SCOPE.PAGES_READ_ENGAGEMENT
     },${
       INSTAGRAM_SCOPE.PAGES_SHOW_LIST
-    },email,read_insights,pages_read_user_content,public_profile,pages_manage_engagement,catalog_management&response_type=code&display=page&config_id=532299436429427`;
+    },email,read_insights,pages_read_user_content,public_profile,pages_manage_engagement,whatsapp_business_management&response_type=code&display=page&config_id=532299436429427`;
 
     if (typeof window !== "undefined") window.location.href = authUrl;
   };
