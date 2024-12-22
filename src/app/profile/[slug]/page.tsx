@@ -19,7 +19,7 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
 
   if (!data) {
     return <p>Influencer Not Found</p>;
-  } else if (data.influencer.socialMediaAccounts.length === 0) {
+  } else if (data?.influencer?.socialMediaAccounts?.length === 0) {
     // redirect to onboarding
     redirect(`/profile/${username}/onboarding`);
   } else {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function authMiddleware(request: NextRequest) {
-  const isAuthenticated = request.cookies.get('authToken');
+  const isAuthenticated = request.cookies.get('token');
   console.log('isAuthenticated', isAuthenticated);
 
   if (!isAuthenticated && request.nextUrl.pathname.startsWith('/dashboard')) {
