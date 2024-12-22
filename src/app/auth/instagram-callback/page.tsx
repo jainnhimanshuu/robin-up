@@ -9,26 +9,15 @@ import { useSearchParams } from "next/navigation";
 const InstagramCallbackPage = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [response, setResponse] = useState<string>("");
+  const [loader, setLoader] = useState<boolean>(false);
   const searchParams = useSearchParams();
 
   const code = searchParams.get("code");
 
-  // useEffect(() => {
-  //   if (CommonUtils.isBrowser()) {
-  //     const hash = window.location.hash.substring(1); // Get the hash part after `#`
-  //     const params = new URLSearchParams(hash);
-  //     const token = params.get("access_token");
-
-  //     if (token) {
-  //       setAccessToken(token);
-  //       Logger.logMessage("InstagramCallbackPage", "accessToken", token);
-  //     }
-  //   }
-  // }, []);
-
   useEffect(() => {
     if (code) {
       const exchangeToken = async () => {
+        setLoader(true);
         const clientId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
         const clientSecret = process.env.NEXT_PUBLIC_FACEBOOK_APP_SECRET;
         const redirectUri = process.env.NEXT_PUBLIC_INSTAGRAM_REDIRECT_URI;
@@ -82,8 +71,10 @@ const InstagramCallbackPage = () => {
             setResponse(`Success  ${JSON.stringify(igAccountData)}`);
             // await postData(instagramAppId, instagramAppToken);
           }
+          setLoader(false);
         } catch (error) {
           console.error("Error fetching access token or insights:", error);
+          setLoader(false);
           setResponse("Error fetching access token or insights");
         }
       };
@@ -94,7 +85,9 @@ const InstagramCallbackPage = () => {
 
   return (
     <>
-      {accessToken ? (
+      {loader ? (
+        <div>Loading...</div>
+      ) : accessToken ? (
         <div>Reading Instagram Analytics...</div>
       ) : (
         <div>Invalid Link, {response}</div>
