@@ -1,18 +1,37 @@
 "use client";
 
-// import { INSTAGRAM_FIELDS } from "@rbu/constants/instagramContants";
-import { Logger } from "@rbu/helpers";
+import { DATA_STORE_KEYS, DataStore, Logger } from "@rbu/helpers";
 import { URLProvider } from "@rbu/providers";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const InstagramCallbackPage = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [response, setResponse] = useState<string>("");
   const [loader, setLoader] = useState<boolean>(false);
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const code = searchParams.get("code");
+
+  const postData = async (
+    instagramAppId: string,
+    instagramAppToken: string,
+    userAccessToken: string
+  ) => {
+    const response = await fetch(URLProvider.getFeedAnalyticsUrl(), {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        appId: instagramAppId,
+        appToken: instagramAppToken,
+        userAccessToken: userAccessToken,
+      }),
+    });
+
+    const data = await response.json();
+    return data;
+  };
 
   useEffect(() => {
     if (code) {
@@ -69,7 +88,20 @@ const InstagramCallbackPage = () => {
             );
             setAccessToken(instagramAppToken);
             setResponse(`Success  ${JSON.stringify(igAccountData)}`);
-            // await postData(instagramAppId, instagramAppToken);
+            const userAccessToken = DataStore.getItem(DATA_STORE_KEYS.TOKEN);
+            console.log("userAccessToken", userAccessToken);
+
+            const username = DataStore.getItem(DATA_STORE_KEYS.USERNAME);
+
+            const data = await postData(
+              instagramAppId,
+              instagramAppToken,
+              userAccessToken as string
+            );
+            console.log("data", data);
+            if (data.ok) {
+              router.push(URLProvider.getProfilePathUrl(username));
+            }
           }
           setLoader(false);
         } catch (error) {
@@ -81,7 +113,7 @@ const InstagramCallbackPage = () => {
 
       exchangeToken();
     }
-  }, [code]);
+  }, [code, router]);
 
   return (
     <>
