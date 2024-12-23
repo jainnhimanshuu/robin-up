@@ -5,6 +5,10 @@ import { URLProvider } from "@rbu/providers";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+interface FBGraphResponse {
+  access_token: string;
+}
+
 const InstagramCallbackPage = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [response, setResponse] = useState<string>("");
@@ -48,17 +52,17 @@ const InstagramCallbackPage = () => {
           const response = await fetch(tokenUrl, {
             method: "GET",
           });
-          const data = await response.json();
-          Logger.logMessage("InstagramCallbackPage", "data", data);
+          const tokenData: FBGraphResponse = await response.json();
+          Logger.logMessage("InstagramCallbackPage", "data", tokenData);
 
-          if (data.access_token) {
+          if (tokenData.access_token) {
             // Fetch Instagram Insights with the access token
-            const instagramAppToken = data.access_token;
+            const instagramAppToken = tokenData.access_token;
 
             // Step 1: Get Facebook Page ID
             const pageResponse = await fetch(
               `${URLProvider.getFBGraphUrl()}/me/accounts?access_token=${
-                data.access_token
+                tokenData.access_token
               }`
             );
             const pageData = await pageResponse.json();
@@ -67,7 +71,7 @@ const InstagramCallbackPage = () => {
             // Step 2: Get Instagram Business Account ID
             const igAccountResponse = await fetch(
               `${URLProvider.getFBGraphUrl()}/${pageId}?fields=instagram_business_account&access_token=${
-                data.access_token
+                tokenData.access_token
               }`,
               {
                 method: "GET",
@@ -100,7 +104,7 @@ const InstagramCallbackPage = () => {
             );
             console.log("data", data);
             if (data.ok) {
-              router.push(URLProvider.getProfilePathUrl(username));
+              router.push(URLProvider.getProfilePathUrl(username as string));
             }
           }
           setLoader(false);
