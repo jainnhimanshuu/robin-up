@@ -26,4 +26,8 @@ export class URLProvider {
   static getProfilePathUrl(username: string): string {
     return `${this.getBasePath()}/profile/${username}`;
   }
+
+  static getFeedAnalyticsUrl(): string {
+    return `${this.getBasePath()}/feedAnalytics`;
+  }
 }

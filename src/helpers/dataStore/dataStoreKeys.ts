@@ -8,7 +8,7 @@ export const DATA_STORE_KEYS = {
   IS_SESSION_INIT: "is_session_init",
 
   // Cookies Keys
-  AUTH_TOKEN: "authToken",
+  TOKEN: "token",
 
   // Common Keys
   UTM_SOURCE: "utm_source",
