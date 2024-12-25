@@ -5,10 +5,12 @@ export const getInfluencerProfile = async (slug: string) => {
     );
 
     const response = await fetch(url, {
-      credentials: "include", // This will include cookies in the request
+      next: {
+        revalidate: 0,
+      },
     });
 
-    return response.json();
+    return response;
   } catch (err) {
     throw err;
   }

@@ -7,9 +7,10 @@ const OnboardingPage = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
 
   try {
-    const influencer = await getInfluencerProfile(slug);
+    const response = await getInfluencerProfile(slug);
+    const influencerData = await response.json();
 
-    if (influencer.influencer.socialMediaAccounts.length > 0) {
+    if (influencerData.influencer.socialMediaAccounts.length > 0) {
       redirect(`/profile/${slug}`);
     }
 

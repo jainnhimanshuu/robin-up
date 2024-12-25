@@ -33,8 +33,7 @@ const InstagramCallbackPage = () => {
       }),
     });
 
-    const data = await response.json();
-    return data;
+    return response;
   };
 
   useEffect(() => {
@@ -97,13 +96,13 @@ const InstagramCallbackPage = () => {
 
             const username = DataStore.getItem(DATA_STORE_KEYS.USERNAME);
 
-            const data = await postData(
+            const response = await postData(
               instagramAppId,
               instagramAppToken,
               userAccessToken as string
             );
-            console.log("data", data);
-            if (data.ok) {
+            console.log("data", response);
+            if (response.ok) {
               router.push(URLProvider.getProfilePathUrl(username as string));
             }
           }
