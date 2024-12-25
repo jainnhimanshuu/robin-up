@@ -11,15 +11,18 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
   try {
     const response = await getInfluencerProfile(username);
 
-    data = response;
+    if (response.status === 404) {
+      return <p>Influencer Not Found</p>;
+    }
+
+    data = await response.json();
+
     Logger.logMessage("[ProfilePage]: ", data);
   } catch (err) {
     Logger.logError("[ProfilePage]: ", err);
   }
 
-  if (!data) {
-    return <p>Influencer Not Found</p>;
-  } else if (data?.influencer?.socialMediaAccounts?.length === 0) {
+  if (data?.influencer?.socialMediaAccounts?.length === 0) {
     // redirect to onboarding
     redirect(`/profile/${username}/onboarding`);
   } else {
