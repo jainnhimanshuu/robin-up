@@ -103,7 +103,7 @@ const InstagramCallbackPage = () => {
             );
             console.log("data", response);
             if (response.ok) {
-              router.push(URLProvider.getProfilePathUrl(username as string));
+              router.push(`/profile/${username}`);
             }
           }
           setLoader(false);
