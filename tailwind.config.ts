@@ -18,11 +18,7 @@ const config: Config = {
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
       },
-      animation: {
-        spotlight: "spotlight 2s ease .75s 1 forwards",
-        aurora: "aurora 60s linear infinite",
-        gradient: "gradient 8s linear infinite",
-      },
+
       keyframes: {
         gradient: {
           to: {
@@ -47,6 +43,34 @@ const config: Config = {
             backgroundPosition: "350% 50%, 350% 50%",
           },
         },
+        fadeUp: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        fadeDown: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+      },
+
+      animation: {
+        spotlight: "spotlight 2s ease .75s 1 forwards",
+        aurora: "aurora 60s linear infinite",
+        gradient: "gradient 8s linear infinite",
+        fadeUp: "fadeUp 0.5s ease-out",
+        fadeDown: "fadeDown 0.5s ease-out",
       },
     },
   },

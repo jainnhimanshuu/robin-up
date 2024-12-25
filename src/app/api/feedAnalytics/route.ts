@@ -3,7 +3,6 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { appId, appToken, userAccessToken } = await req.json();
-  console.log(appId, appToken, userAccessToken);
 
   const response = await fetch(
     // TODO: add url to the env

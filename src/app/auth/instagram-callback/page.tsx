@@ -79,7 +79,6 @@ const InstagramCallbackPage = () => {
             const igAccountData = await igAccountResponse.json();
             const igBusinessAccountId =
               igAccountData.instagram_business_account.id;
-            console.log("appIdData", igBusinessAccountId);
 
             const instagramAppId = igBusinessAccountId;
             Logger.logMessage(
@@ -92,7 +91,6 @@ const InstagramCallbackPage = () => {
             setAccessToken(instagramAppToken);
             setResponse(`Success  ${JSON.stringify(igAccountData)}`);
             const userAccessToken = DataStore.getItem(DATA_STORE_KEYS.TOKEN);
-            console.log("userAccessToken", userAccessToken);
 
             const username = DataStore.getItem(DATA_STORE_KEYS.USERNAME);
 
@@ -101,14 +99,13 @@ const InstagramCallbackPage = () => {
               instagramAppToken,
               userAccessToken as string
             );
-            console.log("data", response);
             if (response.ok) {
               router.push(`/profile/${username}`);
             }
           }
           setLoader(false);
         } catch (error) {
-          console.error("Error fetching access token or insights:", error);
+          Logger.logError("Error fetching access token or insights:", error);
           setLoader(false);
           setResponse("Error fetching access token or insights");
         }

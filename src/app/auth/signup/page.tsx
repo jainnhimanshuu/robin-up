@@ -56,7 +56,7 @@ export default function SignUp() {
         clearErrors("username");
       }
     } catch (error) {
-      console.error("Error checking username availability:", error);
+      Logger.logError("Error checking username availability:", error);
     }
   };
 
