@@ -21,7 +21,7 @@ export interface IInstagram {
   igUsername: string;
   instagramAppId: string;
   instagramAccessToken: string;
-  followersCount: string;
+  followersCount: number;
   mediaCount: number;
   engagementRate: number;
   avgLikes: number;
