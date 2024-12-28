@@ -9,7 +9,7 @@ interface IProfileHeroProps {
 }
 
 export const ProfileHero = (props: IProfileHeroProps) => {
-  const { profileImage, profileName, profileDescription } = props;
+  const { profileName, profileDescription } = props;
 
   return (
     <section className="w-full min-h-[60vh] flex flex-col items-center justify-center px-4 animate-fadeDown bg-gradient-to-b from-pink-50 to-white">
