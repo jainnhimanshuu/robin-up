@@ -16,6 +16,13 @@ export interface ICity {
   [key: string]: number;
 }
 
+export interface IDemographics {
+  gender: IGender;
+  country: ICountry;
+  age: IAge;
+  city: ICity;
+}
+
 export interface IInstagram {
   influencerId: string;
   igUsername: string;
@@ -32,22 +39,7 @@ export interface IInstagram {
   last30DaysReach: number[];
   totalInteractions: number[];
   instagramProfilePicture: string;
-  engagedAudienceDemographics: {
-    gender: IGender;
-    country: ICountry; // Map of country and percentage
-    age: IAge; // Map of age range and percentage
-    city: ICity; // Map of city and percentage
-  };
-  reachedAudienceDemographics: {
-    gender: IGender;
-    country: ICountry;
-    age: IAge;
-    city: ICity;
-  };
-  followerAudienceDemographics: {
-    gender: IGender;
-    country: ICountry;
-    age: IAge;
-    city: ICity;
-  };
+  engagedAudienceDemographics: IDemographics;
+  reachedAudienceDemographics: IDemographics;
+  followerAudienceDemographics: IDemographics;
 }
