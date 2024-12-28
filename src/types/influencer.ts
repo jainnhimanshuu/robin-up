@@ -7,5 +7,5 @@ export interface Influencer {
   categories?: string[];
   socialMediaAccounts: string[];
   profilePicture?: string;
-  instagramData?: IInstagram;
+  instagramData: IInstagram;
 }
