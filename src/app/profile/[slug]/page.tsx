@@ -1,7 +1,7 @@
 import { getInfluencerProfile } from "@rbu/ssr-services/profile";
-import Portfolio from "./Portfolio/portfolio";
 import { Logger } from "@rbu/helpers/logger";
 import { redirect } from "next/navigation";
+import PortfolioNew from "./Portfolio/portfolioNew";
 
 const ProfilePage = async ({ params }: { params: { slug: string } }) => {
   const username = params.slug;
@@ -26,7 +26,7 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
     // redirect to onboarding
     redirect(`/profile/${username}/onboarding`);
   } else {
-    return <Portfolio influencerData={data.influencer} />;
+    return <PortfolioNew influencerData={data.influencer} />;
   }
 };
 

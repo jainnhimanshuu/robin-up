@@ -1,13 +1,27 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "instagram.fbom3-1.fna.fbcdn.net",
-      "instagram.fbom3-2.fna.fbcdn.net",
-      "instagram.fbom3-3.fna.fbcdn.net",
-      "instagram.fbom3-4.fna.fbcdn.net",
-      "storage.googleapis.com",
-      "images.unsplash.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.fna.fbcdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+      },
+      {
+        protocol: "https",
+        hostname: "odindesignthemes.com",
+      },
     ],
   },
 };
